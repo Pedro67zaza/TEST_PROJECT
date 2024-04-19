@@ -1,0 +1,22 @@
+void findSalesByCustomer(const string customerName[], const string cookieType[], const int quantitySold[], const double pricePerUnit[], const double total_revenue[], int amount)
+{
+	cout << "Enter the name of the customer: " << endl;
+	getline(cin, name);
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	
+	for(int i = 0; i < amount; i++)
+	{
+		
+		if (name == customerName[i])
+		{
+		cout << "_________CUSTOMER "<< new_Number + 1 <<"_________" << endl;
+		cout << "Customer's name: " << customerName[new_Number] << endl;
+		cout << "Cookie type: " << cookieType[new_Number] << endl;
+		cout << "Quantity Sold: " << quantitySold[new_Number] << endl;
+		cout << "Price Per Unit (RM): " << pricePerUnit[new_Number] << endl;
+		cout << "Total Revenue: " << fixed << setprecision(2) << total_revenue[new_Number] << endl;
+		}
+		else if (name != customerName[i])
+			continue;
+	}	
+}
