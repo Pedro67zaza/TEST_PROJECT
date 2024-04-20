@@ -1,0 +1,211 @@
+/*
+	PROGRAMMERS : AFIZUDIN, ARYAN, AINOL, RIFAT, AMIN
+	GROUP : 4
+	SUBJECT : FUNDAMENTALS OF PROGRAMMING (SWC1323)
+	LECTURER : MDM SITI ROBAYA
+	PROGRAM PURPOSE : to manage the sales of cookies for the Hari Raya Aidilfitri celebration. This program will assist the company in recording and managing
+					  sales data, including types of cookies sold, quantities, prices, and customer information.
+*/
+
+//Proprocessor directive
+#include <iostream>
+#include <limits>
+#include <iomanip>
+using namespace std;
+
+//Declaration of arrays, variables, and constant
+const int TRANSACTION_CAPACITY = 50;
+int transactionNo[TRANSACTION_CAPACITY], quantitySold[TRANSACTION_CAPACITY], amount, choice, nameSearch, quitRecordSales;
+double pricePerUnit[TRANSACTION_CAPACITY], total_revenue[TRANSACTION_CAPACITY];
+string cookieType[TRANSACTION_CAPACITY], customerName[TRANSACTION_CAPACITY], name;
+char choiceToProceed;
+
+//Function prototypes
+void recordSales();
+void calculateTotalRevenue(const int quantitySold[], const double pricePerUnit[], int amount);
+void displaySalesRecords();
+void findSalesByCustomer(const string customerName[], const string cookieType[], const int quantitySold[], const double pricePerUnit[], const double total_revenue[], int amount);
+void updatesSalesRecord();
+
+//main function
+int main() {	
+	//prompt the user for the amount of customer details to be put in
+	cout << "***Aryan's Recipe Sdn Bhd***" << endl;
+	cout << "***Hari Raya Cookies Sales!***" << endl;
+	cout << "Enter the amount of customers: " << endl;
+	cin >> amount;
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');//clear input buffer
+	
+	if (amount > 0 && amount < TRANSACTION_CAPACITY)//if the user input the correct value 
+	{
+		recordSales(); //function call
+		calculateTotalRevenue(quantitySold, pricePerUnit, amount);//function call
+		
+		if(quitRecordSales == -1)//if the user input the correct value 
+			cout << "Invalid Input!";
+		else
+		{
+			for(int i = 0; i < 10;)//infinite loop
+			{
+			//prompt the user to make a decision
+				cout << "\n";
+				cout << "Pick one of the following: " << endl;
+				cout << "1. Present all sales information" << endl;
+				cout << "2. Search for a specific customer details" << endl;
+				cout << "3. Modify existing sales records" << endl;
+				cout << "\n";
+				cin >> choice;
+	
+				switch(choice) {//switch statement based on the user's input
+					case 1:
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');//clear input buffer
+						displaySalesRecords();//function call
+						break;
+					case 2:
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');//clear input buffer
+						findSalesByCustomer(customerName, cookieType, quantitySold, pricePerUnit, total_revenue, amount);//function call
+						break;
+					case 3:
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');//clear input buffer
+						updatesSalesRecord();//function call
+						break;
+					default:
+						cout << "Invalid input!" << endl;//if the user input the wrong value 
+						break;
+					}
+				//prompt if the user wants to continue 
+				cout << "\n";
+				cout << "Do you want to continue?" << endl;
+				cout << "(Y) for Yes, Any keys if No" << endl;
+				cin >> choiceToProceed;
+		
+				choiceToProceed = toupper(choiceToProceed);//make sure the input is uppercase 
+	
+				if(choiceToProceed == 'Y')//continue if user input yes
+					continue;
+				else//if user said no
+					i = 10;
+			}
+		}
+	}
+	//if the user input the wrong value 
+	else if (amount > TRANSACTION_CAPACITY)
+		cout << "Invalid Input! Max Capacity:" << TRANSACTION_CAPACITY << endl;
+	else
+		cout << "Invalid Input! Please enter a positive number only." << endl;
+		
+	return 0;//return statement
+}
+
+void recordSales()//function to record sales information 
+{	
+	for(int i = 0; i < amount; i++)//for loop
+		{
+			cout << "_________CUSTOMER "<< i + 1 <<"_________" << endl;
+			cout << "Enter the customer's name: " << endl; //prompt the user for the name
+			getline(cin, customerName[i]);
+			cout << "Enter the type of cookie sold: " << endl; //prompt the user for the cookie type 
+			getline(cin, cookieType[i]);
+			cout << "State the quantity: " << endl; //prompt the user for the quantity 
+			cin >> quantitySold[i];
+			cout << "State the Price per unit (RM): " << endl; //prompt the user for the price per unit 
+			cin >> pricePerUnit[i];
+			transactionNo[i] = i; //records the transaction number for each customer 
+			
+			if(!cin)//if the user input the wrong data type 
+			{
+				quitRecordSales = -1;
+				break;
+			}
+			else
+				quitRecordSales = 1;
+				
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');//clear input buffer
+		}
+}
+
+void calculateTotalRevenue(const int quantitySold[], const double pricePerUnit[], int amount)//function to calculate the total revenue
+{
+	for(int i = 0; i < amount; i++)//for loop
+	{
+		total_revenue[i] = (quantitySold[i] * pricePerUnit[i]);//calculate and store the total revenue for each customer
+	}
+}
+
+void displaySalesRecords()//function to display all customers information 
+{
+	for(int i = 0; i < amount; i++)//for loop
+	{
+		cout << "_________CUSTOMER "<< i + 1 <<"_________" << endl;
+		cout << "Customer's name: " << customerName[i] << endl;
+		cout << "Cookie type: " << cookieType[i] << endl;
+		cout << "Quantity Sold: " << quantitySold[i] << endl;
+		cout << "Price Per Unit (RM): " << pricePerUnit[i] << endl;
+		cout << "Total Revenue: " << fixed << setprecision(2) << total_revenue[i] << endl;
+		cout << "Transaction number:AAM" << transactionNo[i] << endl;
+	}
+}
+
+void findSalesByCustomer(const string customerName[], const string cookieType[], const int quantitySold[], const double pricePerUnit[], const double total_revenue[], int amount)//function to find sales by a customer's name
+{
+	nameSearch = -1;
+	cout << "Enter the customer's name:" << endl;//prompt the user for the name
+	getline(cin, name);
+	
+	for(int i = 0; i < amount; i++)//for loop
+	{
+		if(customerName[i] == name)//if the name is found 
+			nameSearch = i;
+	}
+	
+	if(nameSearch >= 0)
+	{
+		cout << "_________CUSTOMER "<< nameSearch + 1 <<"_________" << endl;
+		cout << "Customer's name: " << customerName[nameSearch] << endl;
+		cout << "Cookie type: " << cookieType[nameSearch] << endl;
+		cout << "Quantity Sold: " << quantitySold[nameSearch] << endl;
+		cout << "Price Per Unit (RM): " << pricePerUnit[nameSearch] << endl;
+		cout << "Total Revenue: " << fixed << setprecision(2) << total_revenue[nameSearch] << endl;
+		cout << "Transaction number:AAM" << transactionNo[nameSearch] << endl;
+	}
+	else
+		cout << "Name does not exist! Please enter the correct name." << endl;//if the name is not found 
+}
+
+void updatesSalesRecord() //function to update the customer's info 
+{
+	cout << "***PLEASE NOTE THAT THE TRANSACTION NUMBER BEGINS AT 0***" << endl;
+	cout << "Enter the transaction number:AAM_ " << endl; //prompt the user for the transaction number 
+	cin >> nameSearch;
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');//clear input buffer
+	
+	if(nameSearch < amount && nameSearch > -1)//if the user input the correct value 
+	{
+		cout << "Enter the new customer's name: " << endl;
+		getline(cin, customerName[nameSearch]);
+		cout << "Enter the new type of cookie sold: " << endl;
+		getline(cin, cookieType[nameSearch]);
+		cout << "State the new quantity: " << endl;
+		cin >> quantitySold[nameSearch];
+		cout << "State the new Price per unit (RM): " << endl;
+		cin >> pricePerUnit[nameSearch];
+		
+		total_revenue[nameSearch] = (quantitySold[nameSearch] * pricePerUnit[nameSearch]);//calculate the new revenue 
+		//display the new details 
+		cout << "_________CUSTOMER "<< nameSearch + 1 <<"_________" << endl;
+		cout << "Customer's name: " << customerName[nameSearch] << endl;
+		cout << "Cookie type: " << cookieType[nameSearch] << endl;
+		cout << "Quantity Sold: " << quantitySold[nameSearch] << endl;
+		cout << "Price Per Unit (RM):" << pricePerUnit[nameSearch] << endl;
+		cout << "Total Revenue: " << fixed << setprecision(2) << total_revenue[nameSearch] << endl;
+		cout << "Transaction number:AAM" << transactionNo[nameSearch] << endl;
+	}
+	else
+		cout << "Invalid Input!" << endl;//if the user input the wrong value 
+}
