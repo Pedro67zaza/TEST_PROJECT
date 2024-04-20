@@ -17,7 +17,7 @@ using namespace std;
 const int TRANSACTION_CAPACITY = 50;
 int transactionNo[TRANSACTION_CAPACITY], quantitySold[TRANSACTION_CAPACITY], amount, choice, nameSearch, quitRecordSales;
 double pricePerUnit[TRANSACTION_CAPACITY], total_revenue[TRANSACTION_CAPACITY];
-string cookieType[TRANSACTION_CAPACITY], customerName[TRANSACTION_CAPACITY], name;
+string cookieType[TRANSACTION_CAPACITY], customerName[TRANSACTION_CAPACITY];
 char choiceToProceed;
 
 //Function prototypes
@@ -153,6 +153,7 @@ void displaySalesRecords()//function to display all customers information
 
 void findSalesByCustomer(const string customerName[], const string cookieType[], const int quantitySold[], const double pricePerUnit[], const double total_revenue[], int amount)//function to find sales by a customer's name
 {
+	string name;//variable declaration
 	nameSearch = -1;
 	cout << "Enter the customer's name:" << endl;//prompt the user for the name
 	getline(cin, name);
