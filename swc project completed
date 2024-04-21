@@ -15,7 +15,7 @@ using namespace std;
 
 //Declaration of arrays, variables, and constant
 const int TRANSACTION_CAPACITY = 50;
-int transactionNo[TRANSACTION_CAPACITY], quantitySold[TRANSACTION_CAPACITY], amount, choice, nameSearch, quitRecordSales;
+int transactionNo[TRANSACTION_CAPACITY], quantitySold[TRANSACTION_CAPACITY], amount, choice, nameSearch, quitRecordSales, field;
 double pricePerUnit[TRANSACTION_CAPACITY], total_revenue[TRANSACTION_CAPACITY];
 string cookieType[TRANSACTION_CAPACITY], customerName[TRANSACTION_CAPACITY];
 char choiceToProceed;
@@ -188,15 +188,34 @@ void updatesSalesRecord() //function to update the customer's info
 	
 	if(nameSearch < amount && nameSearch > -1)//if the user input the correct value 
 	{
-		cout << "Enter the new customer's name: " << endl;
-		getline(cin, customerName[nameSearch]);
-		cout << "Enter the new type of cookie sold: " << endl;
-		getline(cin, cookieType[nameSearch]);
-		cout << "State the new quantity: " << endl;
-		cin >> quantitySold[nameSearch];
-		cout << "State the new Price per unit (RM): " << endl;
-		cin >> pricePerUnit[nameSearch];
+		cout << "Enter the field you want to update:" << endl;
+		cout << "(1)Customer's name (2)Cookie Type (3)Quantity Sold (4)Price per Unit" << endl;
+		cin >> field;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');//clear input buffer
 		
+		switch(field) {
+			
+		case 1:
+			cout << "Enter the new customer's name: " << endl;
+			getline(cin, customerName[nameSearch]);
+			break;
+		case 2:
+			cout << "Enter the new type of cookie sold: " << endl;
+			getline(cin, cookieType[nameSearch]);
+			break;
+		case 3:
+			cout << "State the new quantity: " << endl;
+			cin >> quantitySold[nameSearch];
+			break;
+		case 4:
+			cout << "State the new Price per unit (RM): " << endl;
+			cin >> pricePerUnit[nameSearch];
+			break;
+		default:
+			cout << "Invalid field!" << endl;
+			break;
+		}
 		total_revenue[nameSearch] = (quantitySold[nameSearch] * pricePerUnit[nameSearch]);//calculate the new revenue 
 		//display the new details 
 		cout << "_________CUSTOMER "<< nameSearch + 1 <<"_________" << endl;
